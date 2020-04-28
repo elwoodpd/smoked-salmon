@@ -3,6 +3,7 @@ import html
 import re
 import sys
 import time
+from ratelimit import limits, sleep_and_retry
 from collections import namedtuple
 from json.decoder import JSONDecodeError
 
@@ -80,6 +81,8 @@ class RedApi:
         self.authkey = acctinfo["authkey"]
         self.passkey = acctinfo["passkey"]
 
+    @sleep_and_retry
+    @limits(5,10)
     async def request(self, action, **kwargs):
         """
         Make a request to the Redacted API, accomodating the rate limit.
@@ -88,11 +91,6 @@ class RedApi:
         short bursts of requests without a 2 second wait after each one
         (at the expense of a potentially longer wait later).
         """
-        if time.time() - self.last_rate_limit_expiry >= 12:
-            self.cur_req_count = 0
-        elif self.cur_req_count == 4:
-            await asyncio.sleep(12 + self.last_rate_limit_expiry - time.time())
-            self.cur_req_count = 0
 
         url = self.base_url + "ajax.php"
         params = {"action": action, **kwargs}
