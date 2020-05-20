@@ -181,7 +181,8 @@ class RedApi:
         if resp["status"] != "success":
             raise RequestError(f"Upload failed: {resp['error']}")
         elif resp["status"] == "success":
-            return resp["response"][0]["torrentid"], resp["response"][0]["groupid"]
+            print(resp)
+            return resp["response"]["torrentid"], resp["response"]["groupid"]
 
     async def report_lossy_master(self, torrent_id, comment, type_="lossywebapproval"):
         """Automagically report a torrent for lossy master/web approval."""
