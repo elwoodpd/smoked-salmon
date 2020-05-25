@@ -211,7 +211,7 @@ class GazelleApi:
                 raise RequestError(f"Upload failed: {match[1]} ({resp.status_code})")
 
         try:
-            print(resp.url, resp.text)
+            print(resp.url)
             return parse_most_recent_torrent_and_group_id_from_group_page(
                 resp.url, resp.text
             )

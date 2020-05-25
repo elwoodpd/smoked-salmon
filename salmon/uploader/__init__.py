@@ -196,7 +196,7 @@ def upload(
             source_url=source_url,
         )
 
-    url = f"{self.base_url}/torrents.php?id={group_id}&torrentid={torrent_id}"
+    url = f"{GAZELLE_API.base_url}/torrents.php?id={group_id}&torrentid={torrent_id}"
     click.secho(
         f"\nSuccessfully uploaded {url} ({os.path.basename(path)}).",
         fg="green",
