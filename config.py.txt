@@ -9,8 +9,8 @@ PTPIMG_KEY = 'ptpimg-key'
 DISCOGS_TOKEN = 'discogs-token'
 
 TRACKER_DETAILS = {
-    'SITE_URL': 'https://redacted.ch/',
-    'TRACKER_URL': 'https://flacsfor.me/',
+    'SITE_URL': 'https://redacted.ch',
+    'TRACKER_URL': 'https://flacsfor.me',
     'SITE_STRING': 'RED',
     'SITE_SESSION': 'red-session',
     'SITE_API_KEY': 'red-api-key-needs-uploading-privileges'

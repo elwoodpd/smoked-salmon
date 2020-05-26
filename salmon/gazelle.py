@@ -55,7 +55,7 @@ class GazelleApi:
             "Connection": "keep-alive",
             "Cache-Control": "max-age=0",
             "User-Agent": config.USER_AGENT,
-            # "Authorization": tracker_details['TRACKER_API_KEY'],
+            
         }
 
         self.base_url = tracker_details['SITE_URL']
@@ -63,7 +63,7 @@ class GazelleApi:
         self.site_string = tracker_details['SITE_STRING']
         self.cookie = tracker_details['SITE_SESSION']
         if tracker_details['SITE_API_KEY']:
-            self.api_key = tracker_details['SITE_API_KEY']
+           self.api_key = self.headers["Authorization"] = tracker_details['SITE_API_KEY']
         self.session = requests.Session()
         self.session.headers.update(self.headers)
         self.last_rate_limit_expiry = time.time() - 10
@@ -74,7 +74,7 @@ class GazelleApi:
 
     @property
     def announce(self):
-        return f"{self.tracker_url}{self.passkey}/announce"
+        return f"{self.tracker_url}/{self.passkey}/announce"
 
     def authenticate(self):
         """Make a request to the site API with the saved cookie and get our authkey."""
@@ -173,10 +173,9 @@ class GazelleApi:
 
         return resp["id"], releases
 
-    async def new_upload(self, data, files):
+    async def api_key_upload(self, data, files):
         """Attempt to upload a torrent to the site."""
-        # if  not self.tracker_details['TRACKER_API_KEY']:return old_upload(self, data, files)
-        url = self.base_url + "ajax.php?action=upload"
+        url = self.base_url + "/ajax.php?action=upload"
         data["auth"] = self.authkey
         resp = await loop.run_in_executor(
             None,
@@ -192,8 +191,8 @@ class GazelleApi:
             print(resp)
             return resp["response"]["torrentid"], resp["response"]["groupid"]
 
-    async def old_upload(self, data, files):
-        url = self.base_url + "upload.php"
+    async def site_page_upload(self, data, files):
+        url = self.base_url + "/upload.php"
         data["auth"] = self.authkey
         resp = await loop.run_in_executor(
             None,
@@ -220,13 +219,13 @@ class GazelleApi:
     async def upload(self, data, files):
         """Upload a torrent using upload.php rather than API. Needed if API Key not found."""
         if self.api_key:
-            return new_upload(self, data, files)
+            return await self.api_key_upload(data, files)
         else:
-            return old_upload(self, data, files)
+            return await self.site_page_upload(data, files)
 
     async def report_lossy_master(self, torrent_id, comment, type_="lossywebapproval"):
         """Automagically report a torrent for lossy master/web approval."""
-        url = self.base_url + "reportsv2.php"
+        url = self.base_url + "/reportsv2.php"
         params = {"action": "takereport"}
         data = {
             "auth": self.authkey,
