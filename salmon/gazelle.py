@@ -98,7 +98,7 @@ class GazelleApi:
         (at the expense of a potentially longer wait later).
         """
 
-        url = self.base_url + "ajax.php"
+        url = self.base_url + "/ajax.php"
         params = {"action": action, **kwargs}
 
         self.cur_req_count += 1
