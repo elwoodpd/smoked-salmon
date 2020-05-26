@@ -15,3 +15,11 @@ TRACKER_DETAILS = {
     'SITE_SESSION': 'red-session',
     'SITE_API_KEY': 'red-api-key-needs-uploading-privileges'
 }
+'''
+TRACKER_DETAILS={
+    'SITE_URL':'https://orpheus.network',
+    'TRACKER_URL':'https://home.opsfet.ch',
+    'SITE_STRING':'OPS',
+    'SITE_SESSION':'ops-session'
+}
+'''
