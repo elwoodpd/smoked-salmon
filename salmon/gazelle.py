@@ -49,7 +49,7 @@ SearchReleaseData = namedtuple(
 
 
 class GazelleApi:
-    
+
     def __init__(self, tracker_details):
         self.headers = {
             "Connection": "keep-alive",
@@ -57,12 +57,13 @@ class GazelleApi:
             "User-Agent": config.USER_AGENT,
             # "Authorization": tracker_details['TRACKER_API_KEY'],
         }
-        
+
         self.base_url = tracker_details['SITE_URL']
         self.tracker_url = tracker_details['TRACKER_URL']
         self.site_string = tracker_details['SITE_STRING']
         self.cookie = tracker_details['SITE_SESSION']
-
+        if tracker_details['SITE_API_KEY']:
+            self.api_key = tracker_details['SITE_API_KEY']
         self.session = requests.Session()
         self.session.headers.update(self.headers)
         self.last_rate_limit_expiry = time.time() - 10
@@ -70,7 +71,6 @@ class GazelleApi:
 
         self.authkey = None
         self.passkey = None
-        
 
     @property
     def announce(self):
@@ -192,8 +192,7 @@ class GazelleApi:
             print(resp)
             return resp["response"]["torrentid"], resp["response"]["groupid"]
 
-    async def upload(self, data, files):
-        """Upload a torrent using upload.php rather than API. Needed if API Key not found."""
+    async def old_upload(self, data, files):
         url = self.base_url + "upload.php"
         data["auth"] = self.authkey
         resp = await loop.run_in_executor(
@@ -217,6 +216,13 @@ class GazelleApi:
             )
         except TypeError:
             raise RequestError(f"Upload failed, response text: {resp.text}")
+
+    async def upload(self, data, files):
+        """Upload a torrent using upload.php rather than API. Needed if API Key not found."""
+        if self.api_key:
+            return new_upload(self, data, files)
+        else:
+            return old_upload(self, data, files)
 
     async def report_lossy_master(self, torrent_id, comment, type_="lossywebapproval"):
         """Automagically report a torrent for lossy master/web approval."""

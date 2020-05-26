@@ -11,7 +11,6 @@ from salmon.common import commandgroup
 from salmon.constants import ENCODINGS, FORMATS, SOURCES, TAG_ENCODINGS
 from salmon.errors import AbortAndDeleteFolder, InvalidMetadataError
 
-#from salmon.red import RED_API
 from salmon.gazelle import GAZELLE_API
 
 from salmon.tagger import (

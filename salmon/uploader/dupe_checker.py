@@ -7,9 +7,8 @@ import click
 
 from salmon.common import RE_FEAT, make_searchstrs
 from salmon.errors import AbortAndDeleteFolder
-#from salmon.red import RED_API, RequestError
 
-from salmon.gazelle import GAZELLE_API,RequestError
+from salmon.gazelle import GAZELLE_API, RequestError
 
 loop = asyncio.get_event_loop()
 
@@ -138,7 +137,7 @@ def _prompt_for_group_id(results, offer_deletion):
                 click.echo(
                     f"Please either choose from the options or paste a URL", nl=False)
                 continue
-        elif group_id.strip().lower().startswith(GAZELLE_API.base_url+"/torrents.php"):
+        elif group_id.strip().lower().startswith(GAZELLE_API.base_url + "/torrents.php"):
             group_id = parse.parse_qs(parse.urlparse(group_id).query)['id'][0]
             return int(group_id)
         elif group_id.lower().startswith("a"):
@@ -187,7 +186,7 @@ def _confirm_group_id(group_id, results):
             rset = loop.run_until_complete(GAZELLE_API.torrentgroup(group_id))
             # account for differences between search result and group result json
             rset['groupName'] = rset['group']['name']
-            rset['artist']=""
+            rset['artist'] = ""
             for a in rset['group']['musicInfo']['artists']:
                 rset['artist'] += a['name'] + " "
             rset['groupId'] = rset['group']['id']

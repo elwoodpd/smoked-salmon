@@ -5,9 +5,8 @@ import click
 
 from salmon import config
 from salmon.errors import UploadError
-#from salmon.red import RED_API, RequestError
 
-from salmon.gazelle import GAZELLE_API,RequestError
+from salmon.gazelle import GAZELLE_API, RequestError
 
 loop = asyncio.get_event_loop()
 

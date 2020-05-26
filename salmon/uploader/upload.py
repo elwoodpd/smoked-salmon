@@ -12,9 +12,7 @@ from salmon.common import str_to_int_if_int
 from salmon.constants import ARTIST_IMPORTANCES, RELEASE_TYPES
 from salmon.images import upload_cover
 
-#from salmon.red import RED_API, RequestError
-
-from salmon.gazelle import GAZELLE_API,RequestError
+from salmon.gazelle import GAZELLE_API, RequestError
 
 
 from salmon.sources import SOURCE_ICONS
@@ -207,7 +205,8 @@ def attach_logfiles(path):
 def generate_torrent(path):
     """Call the dottorrent function to generate a torrent."""
     click.secho("Generating torrent file...", fg="yellow", nl=False)
-    t = Torrent(path, trackers=[GAZELLE_API.announce], private=True, source=GAZELLE_API.site_string)
+    t = Torrent(path, trackers=[GAZELLE_API.announce],
+                private=True, source=GAZELLE_API.site_string)
     t.generate()
     tpath = os.path.join(tempfile.gettempdir(), f"{os.path.basename(path)}.torrent")
     with open(tpath, "wb") as tf:
