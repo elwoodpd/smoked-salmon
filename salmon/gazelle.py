@@ -49,8 +49,8 @@ SearchReleaseData = namedtuple(
 
 
 class GazelleApi:
-
-    def __init__(self, tracker_details):
+    def __init__(self, site_code):
+        tracker_details = config.TRACKERS[site_code]
         self.headers = {
             "Connection": "keep-alive",
             "Cache-Control": "max-age=0",
@@ -71,6 +71,7 @@ class GazelleApi:
 
         self.authkey = None
         self.passkey = None
+        self.authenticate()
 
     @property
     def announce(self):
@@ -273,5 +274,3 @@ def parse_most_recent_torrent_and_group_id_from_group_page(url, text):
             )
     return max(torrent_ids), group_id
 
-
-GAZELLE_API = GazelleApi(config.TRACKER_DETAILS)
