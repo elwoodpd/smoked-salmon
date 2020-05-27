@@ -46,6 +46,8 @@ SearchReleaseData = namedtuple(
     "SearchReleaseData",
     ["lossless", "lossless_web", "year", "artist", "album", "release_type", "url"],
 )
+
+
 def validate_tracker(ctx, param, value):
     try:
         click.secho(f"Uploading to {config.TRACKERS[value.upper()]['SITE_URL']}")
@@ -58,8 +60,10 @@ def validate_tracker(ctx, param, value):
             + ", ".join(config.TRACKERS.keys())
         )
 
+
 class GazelleApi:
     def __init__(self, site_code):
+        print('oi')
         tracker_details = config.TRACKERS[str(site_code)]
         self.headers = {
             "Connection": "keep-alive",
@@ -228,7 +232,7 @@ class GazelleApi:
             raise RequestError(f"Upload failed, response text: {resp.text}")
 
     async def upload(self, data, files):
-        """Upload a torrent using upload.php rather than API. Needed if API Key not found."""
+        """Upload a torrent using upload.php or API key."""
         if hasattr(self, 'api_key'):
             return await self.api_key_upload(data, files)
         else:
@@ -282,4 +286,5 @@ def parse_most_recent_torrent_and_group_id_from_group_page(url, text):
             )
     return max(torrent_ids), group_id
 
-GAZELLE_API=GazelleApi('RED')
+
+GAZELLE_API = GazelleApi('RED')
