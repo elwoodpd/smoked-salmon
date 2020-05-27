@@ -259,7 +259,7 @@ def recheck_dupe(gazelle_site,searchstrs, metadata):
         and new_searchstrs
     ):
         click.secho(
-            "\nRechecking for duplicates on RED due to metadata changes...",
+            f'\nRechecking for duplicates on {gazelle_site.site_string} due to metadata changes...',
             fg="cyan",
             bold=True,
         )
