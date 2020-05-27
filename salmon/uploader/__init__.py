@@ -95,7 +95,7 @@ loop = asyncio.get_event_loop()
     is_flag=True,
     help="Recompress flacs to the configured compression level before uploading.",
 )
-@click.option("--tracker-id", "-t", default=config.DEFAULT_TRACKER, help="Choose a tracker from Config.py")
+@click.option("--tracker", "-t", default=config.DEFAULT_TRACKER, help="Choose a tracker from Config.py")
 def up(path, group_id, source, lossy, spectrals, overwrite, encoding, compress,tracker_id):
     """Upload an album folder to RED"""
     gazelle_site=GazelleApi(tracker_id)
