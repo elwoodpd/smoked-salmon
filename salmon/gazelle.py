@@ -48,7 +48,8 @@ SearchReleaseData = namedtuple(
 )
 def validate_tracker(ctx, param, value):
     try:
-        return config.TRACKERS[value.upper()]
+        click.secho(f"Uploading to {config.TRACKERS[value.upper()]['SITE_URL']}")
+        return value.upper()
     except KeyError:
         raise click.BadParameter(f"{value} is not a tracker in your config.")
     except AttributeError:
@@ -59,7 +60,7 @@ def validate_tracker(ctx, param, value):
 
 class GazelleApi:
     def __init__(self, site_code):
-        tracker_details = config.TRACKERS[site_code]
+        tracker_details = config.TRACKERS[str(site_code)]
         self.headers = {
             "Connection": "keep-alive",
             "Cache-Control": "max-age=0",
