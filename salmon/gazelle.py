@@ -271,3 +271,5 @@ def parse_most_recent_torrent_and_group_id_from_group_page(url, text):
                 int(torrent_url[1])
             )
     return max(torrent_ids), group_id
+
+GAZELLE_API=GazelleApi('RED')
