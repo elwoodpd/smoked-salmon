@@ -11,7 +11,7 @@ from salmon.gazelle import GazelleApi, RequestError
 loop = asyncio.get_event_loop()
 
 
-def print_preassumptions(gazelle_site,path, group_id, source, lossy, spectrals, encoding):
+def print_preassumptions(gazelle_site, path, group_id, source, lossy, spectrals, encoding):
     """Print what all the passed CLI options will do."""
     click.secho(f"\nProcessing {path}", fg="cyan", bold=True)
     second = []
@@ -41,7 +41,7 @@ def print_preassumptions(gazelle_site,path, group_id, source, lossy, spectrals, 
         )
 
     if group_id:
-        print_group_info(gazelle_site,group_id, source)
+        print_group_info(gazelle_site, group_id, source)
         click.confirm(
             click.style(
                 "\nWould you like to continue to upload to this group?",
@@ -53,7 +53,7 @@ def print_preassumptions(gazelle_site,path, group_id, source, lossy, spectrals, 
         )
 
 
-def print_group_info(gazelle_site,group_id, source):
+def print_group_info(gazelle_site, group_id, source):
     """
     Print information about the torrent group that was passed as a CLI argument.
     Also print all the torrents that are in that group.
