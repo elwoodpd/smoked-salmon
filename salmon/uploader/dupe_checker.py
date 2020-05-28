@@ -121,8 +121,8 @@ def _prompt_for_group_id(gazelle_site, results, offer_deletion):
         group_id = click.prompt(
             click.style(
                 "\nWould you like to upload to an existing group?\n"
-                f'Either pick from above or paste a release group URL or [a]bort {"[d]elete folder " if offer_deletion else ""}'
-                f"(leave blank for a new group)",
+                "Either pick from releases found, paste a release group URL or leave blank for a new group./n"
+                f'Or [a]bort {", [d]elete folder " if offer_deletion else ""}',
                 fg="magenta",
                 bold=True,
             ),
