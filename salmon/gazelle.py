@@ -65,6 +65,9 @@ class GazelleApi:
     def __init__(self, site_code):
         print('oi')
         tracker_details = config.TRACKERS[str(site_code)]
+        self.other_gazelle_sites = [*config.TRACKERS.keys()]
+        self.other_gazelle_sites.remove(str(site_code))
+
         self.headers = {
             "Connection": "keep-alive",
             "Cache-Control": "max-age=0",
@@ -78,6 +81,7 @@ class GazelleApi:
         self.cookie = tracker_details['SITE_SESSION']
         if 'SITE_API_KEY' in tracker_details.keys():
             self.api_key = tracker_details['SITE_API_KEY']
+
         self.session = requests.Session()
         self.session.headers.update(self.headers)
         self.last_rate_limit_expiry = time.time() - 10
@@ -192,9 +196,9 @@ class GazelleApi:
         """Attempt to upload a torrent to the site."""
         url = self.base_url + "/ajax.php?action=upload"
         data["auth"] = self.authkey
-        #Shallow copy.
-        #We don't want the future requests to send the api key.
-        api_key_headers = {**self.headers,"Authorization":self.api_key}
+        '''Shallow copy.
+        We don't want the future requests to send the api key.'''
+        api_key_headers = {**self.headers, "Authorization": self.api_key}
         resp = await loop.run_in_executor(
             None,
             lambda: self.session.post(
