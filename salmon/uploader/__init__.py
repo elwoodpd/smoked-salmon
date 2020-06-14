@@ -199,7 +199,8 @@ def upload(
     spectrals_path = os.path.join(path, "Spectrals")
     spectral_urls = handle_spectrals_upload_and_deletion(spectrals_path, spectral_ids)
 
-    remaining_gazelle_sites = config.TRACKER_LIST
+    #we need a shallow copy here in case we do more than one upload without reinitialising. 
+    remaining_gazelle_sites = list(config.TRACKER_LIST)
     tracker = gazelle_site.site_code
     while True:
         # Loop until we don't want to upload to any more sites.
